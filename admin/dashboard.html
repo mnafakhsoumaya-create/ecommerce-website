@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — DZ Dépannage</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>✏️ Modifier la Commande</h3>
+      <div class="modal-close" onclick="closeModal()">✕</div>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editId">
+      <div class="form-row">
+        <div class="form-group"><label>Nom Client</label><input type="text" id="editName"></div>
+        <div class="form-group"><label>Téléphone</label><input type="text" id="editPhone"></div>
+      </div>
+      <div class="form-group"><label>Service</label>
+        <select id="editService">
+          <option>Remorquage Voiture</option><option>Remorquage Moto</option>
+          <option>Remorquage Quad / Buggy</option><option>Intervention sur Route</option>
+          <option>Déplacement d'Urgence</option><option>Autre</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Véhicule</label><input type="text" id="editVehicle"></div>
+      <div class="form-group"><label>Localisation</label><input type="text" id="editLocation"></div>
+      <div class="form-group"><label>Statut</label>
+        <select id="editStatus">
+          <option value="pending">En Attente</option>
+          <option value="confirmed">Confirmée</option>
+          <option value="done">Terminée</option>
+          <option value="cancelled">Annulée</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message</label><textarea id="editMessage" rows="3"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel-m" onclick="closeModal()">Annuler</button>
+      <button class="btn-save" onclick="saveEdit()">💾 Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-sb-top">
+      <div class="logo"><span class="logo-dz" style="font-size:24px;">DZ</span><span class="logo-dep">DÉPANNAGE</span></div>
+      <div class="admin-tag-badge">🛡️ Administration</div>
+    </div>
+    <div class="admin-profile-row">
+      <div class="admin-av">👮</div>
+      <div>
+        <div class="admin-info-name" id="adminName">Admin</div>
+        <div class="admin-info-role" id="adminRole">—</div>
+      </div>
+    </div>
+    <nav class="admin-nav">
+      <a onclick="showSection('dashboard')" id="lnk-dashboard" class="active">📊 Tableau de Bord</a>
+      <a onclick="showSection('orders')"   id="lnk-orders">📋 Commandes</a>
+      <a onclick="showSection('clients')"  id="lnk-clients">👥 Clients</a>
+      <a href="../index.html" target="_blank">🌐 Voir le Site</a>
+      <a onclick="doLogout()" class="danger">🚪 Déconnexion</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div class="admin-topbar-title" id="topbarTitle">📊 Tableau de Bord</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span id="topbarAdmin" style="color:var(--gold);font-size:13px;font-weight:600;"></span>
+        <button onclick="doLogout()" class="btn-call" style="border:none;padding:9px 16px;font-size:11px;">🚪 Déconnexion</button>
+      </div>
+    </div>
+
+    <div class="admin-body">
+
+      <!-- ====== SECTION: DASHBOARD ====== -->
+      <div id="sec-dashboard">
+        <div class="admin-stats-row">
+          <div class="admin-stat-card asc-gold">
+            <div class="asc-top"><div><p>Total Commandes</p><h3 id="stTotal">0</h3></div><div class="asc-icon ai-gold">📋</div></div>
+          </div>
+          <div class="admin-stat-card asc-orange">
+            <div class="asc-top"><div><p>En Attente</p><h3 id="stPending">0</h3></div><div class="asc-icon ai-orange">⏳</div></div>
+          </div>
+          <div class="admin-stat-card asc-green">
+            <div class="asc-top"><div><p>Confirmées</p><h3 id="stConfirmed">0</h3></div><div class="asc-icon ai-green">✅</div></div>
+          </div>
+          <div class="admin-stat-card asc-red">
+            <div class="asc-top"><div><p>Annulées</p><h3 id="stCancelled">0</h3></div><div class="asc-icon ai-red">❌</div></div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-card-head">
+            <h2>📋 Commandes Récentes</h2>
+            <button class="btn-new-order" onclick="showSection('orders')">Voir tout →</button>
+          </div>
+          <div id="recentOrdersTable"></div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-card-head"><h2>👥 Clients Récents</h2></div>
+          <div id="recentClientsTable"></div>
+        </div>
+      </div>
+
+      <!-- ====== SECTION: COMMANDES ====== -->
+      <div id="sec-orders" style="display:none;">
+        <div class="section-card">
+          <div class="section-card-head">
+            <h2>📋 Toutes les Commandes &nbsp;<span id="orderCount" style="font-size:14px;color:var(--gold);"></span></h2>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+              <input class="search-input" type="text" placeholder="🔍 Rechercher..." oninput="filterOrders(this.value)">
+              <div class="filter-btns">
+                <button class="filter-btn active" onclick="setFilter('all',this)">Tous</button>
+                <button class="filter-btn" onclick="setFilter('pending',this)">⏳ Attente</button>
+                <button class="filter-btn" onclick="setFilter('confirmed',this)">✅ Confirmés</button>
+                <button class="filter-btn" onclick="setFilter('done',this)">🏁 Terminés</button>
+                <button class="filter-btn" onclick="setFilter('cancelled',this)">❌ Annulés</button>
+              </div>
+            </div>
+          </div>
+          <div id="ordersTable"></div>
+        </div>
+      </div>
+
+      <!-- ====== SECTION: CLIENTS ====== -->
+      <div id="sec-clients" style="display:none;">
+        <div class="section-card">
+          <div class="section-card-head">
+            <h2>👥 Clients Inscrits &nbsp;<span id="clientCount" style="font-size:14px;color:var(--gold);"></span></h2>
+          </div>
+          <div id="clientsTable"></div>
+        </div>
+      </div>
+
+    </div><!-- /admin-body -->
+  </main>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+/* ---- AUTH ---- */
+const admin = DZ.currentAdmin();
+if (!admin) window.location.href = 'login.html';
+document.getElementById('adminName').textContent   = admin.name;
+document.getElementById('adminRole').textContent   = admin.role;
+document.getElementById('topbarAdmin').textContent = '👮 ' + admin.name;
+
+/* ---- FILTER STATE ---- */
+let currentFilter = 'all';
+let searchQuery   = '';
+
+/* ---- STATS ---- */
+function loadStats() {
+  const orders = DZ.getOrders();
+  document.getElementById('stTotal').textContent     = orders.length;
+  document.getElementById('stPending').textContent   = orders.filter(o=>o.status==='pending').length;
+  document.getElementById('stConfirmed').textContent = orders.filter(o=>o.status==='confirmed').length;
+  document.getElementById('stCancelled').textContent = orders.filter(o=>o.status==='cancelled').length;
+}
+
+/* ---- ORDERS TABLE ---- */
+function renderOrdersTable(containerId, orders, showActions) {
+  const wrap = document.getElementById(containerId);
+  if (!orders.length) {
+    wrap.innerHTML = '<div class="empty-table"><span class="empty-em">📭</span><p>Aucune commande trouvée</p></div>';
+    return;
+  }
+  wrap.innerHTML = `
+    <table>
+      <thead><tr>
+        <th>Référence</th><th>Client</th><th>Téléphone</th>
+        <th>Service</th><th>Véhicule</th><th>Lieu</th>
+        <th>Date</th><th>Statut</th>
+        ${showActions ? '<th>Actions</th>' : ''}
+      </tr></thead>
+      <tbody>
+        ${orders.map(o => `
+          <tr>
+            <td class="td-gold">${o.id}</td>
+            <td class="td-white">${o.name}</td>
+            <td><a href="tel:${o.phone}" class="td-link">${o.phone}</a></td>
+            <td>${o.service}</td>
+            <td>${o.vehicle||'—'}</td>
+            <td>${o.location}</td>
+            <td>${o.date}</td>
+            <td><span class="status status-${o.status}">${STATUS_LABELS[o.status]||o.status}</span></td>
+            ${showActions ? `
+            <td>
+              <div class="action-btns">
+                <button class="btn-act ba-edit"    onclick="openEditModal('${o.id}')">✏️</button>
+                ${o.status!=='confirmed'&&o.status!=='done' ? `<button class="btn-act ba-confirm" onclick="chStatus('${o.id}','confirmed')">✅</button>` : ''}
+                ${o.status!=='done'                        ? `<button class="btn-act ba-done"    onclick="chStatus('${o.id}','done')">🏁</button>` : ''}
+                ${o.status!=='cancelled'                   ? `<button class="btn-act ba-cancel"  onclick="chStatus('${o.id}','cancelled')">🚫</button>` : ''}
+                <button class="btn-act ba-del"     onclick="delOrder('${o.id}')">🗑️</button>
+              </div>
+            </td>` : ''}
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+function loadOrders() {
+  let orders = DZ.getOrders().reverse();
+  if (currentFilter !== 'all') orders = orders.filter(o => o.status === currentFilter);
+  if (searchQuery) orders = orders.filter(o =>
+    (o.id||'').toLowerCase().includes(searchQuery) ||
+    (o.name||'').toLowerCase().includes(searchQuery) ||
+    (o.phone||'').includes(searchQuery) ||
+    (o.service||'').toLowerCase().includes(searchQuery) ||
+    (o.location||'').toLowerCase().includes(searchQuery)
+  );
+  document.getElementById('orderCount').textContent = orders.length + ' commande(s)';
+  renderOrdersTable('ordersTable', orders, true);
+}
+
+function loadRecentOrders() {
+  const orders = DZ.getOrders().slice(-5).reverse();
+  renderOrdersTable('recentOrdersTable', orders, false);
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadOrders();
+}
+function filterOrders(q) { searchQuery = q.toLowerCase(); loadOrders(); }
+
+/* ---- ORDER ACTIONS ---- */
+function chStatus(id, status) {
+  DZ.updateOrder(id, { status });
+  loadStats(); loadOrders(); loadRecentOrders();
+  showToast('✅ Statut mis à jour !');
+}
+function delOrder(id) {
+  if (!confirm('Supprimer définitivement cette commande ?')) return;
+  DZ.deleteOrder(id);
+  loadStats(); loadOrders(); loadRecentOrders();
+  showToast('🗑️ Commande supprimée', 'error');
+}
+
+/* Override saveEdit to refresh this page */
+const _origSave = window.saveEdit;
+window.saveEdit = function() {
+  DZ.updateOrder(document.getElementById('editId').value, {
+    name:     document.getElementById('editName').value,
+    phone:    document.getElementById('editPhone').value,
+    service:  document.getElementById('editService').value,
+    vehicle:  document.getElementById('editVehicle').value,
+    location: document.getElementById('editLocation').value,
+    status:   document.getElementById('editStatus').value,
+    message:  document.getElementById('editMessage').value
+  });
+  closeModal();
+  loadStats(); loadOrders(); loadRecentOrders();
+  showToast('✏️ Commande modifiée !');
+};
+
+/* ---- CLIENTS TABLE ---- */
+function loadClients() {
+  const clients = DZ.getClients();
+  document.getElementById('clientCount').textContent = clients.length + ' client(s)';
+  const wrap = document.getElementById('clientsTable');
+  if (!clients.length) {
+    wrap.innerHTML = '<div class="empty-table"><span class="empty-em">👥</span><p>Aucun client inscrit</p></div>';
+    return;
+  }
+  wrap.innerHTML = `
+    <table>
+      <thead><tr><th>Avatar</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Inscription</th><th>Commandes</th></tr></thead>
+      <tbody>
+        ${clients.map(c => {
+          const init = c.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+          const nb   = DZ.clientOrders(c.email).length;
+          return `<tr>
+            <td><div style="width:36px;height:36px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--gold);">${init}</div></td>
+            <td class="td-white">${c.name}</td>
+            <td>${c.email}</td>
+            <td><a href="tel:${c.phone}" class="td-link">${c.phone}</a></td>
+            <td>${c.date||'—'}</td>
+            <td><span class="status status-confirmed">${nb} commande(s)</span></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>`;
+}
+
+/* ---- SECTION NAV ---- */
+const SECTIONS  = ['dashboard','orders','clients'];
+const TITLES    = { dashboard:'📊 Tableau de Bord', orders:'📋 Commandes', clients:'👥 Clients' };
+function showSection(s) {
+  SECTIONS.forEach(id => { document.getElementById('sec-'+id).style.display = 'none'; });
+  document.getElementById('sec-'+s).style.display = 'block';
+  document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
+  const lnk = document.getElementById('lnk-'+s); if (lnk) lnk.classList.add('active');
+  document.getElementById('topbarTitle').textContent = TITLES[s] || '';
+  if (s === 'orders')  loadOrders();
+  if (s === 'clients') loadClients();
+}
+
+function doLogout() { DZ.logoutAdmin(); window.location.href = 'login.html'; }
+
+/* ---- INIT ---- */
+loadStats();
+loadRecentOrders();
+loadClients();
+
+/* Auto-refresh every 30s */
+setInterval(() => { loadStats(); loadRecentOrders(); }, 30000);
+</script>
+</body>
+</html>

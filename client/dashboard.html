@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Espace — DZ Dépannage</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="logo"><span class="logo-dz">DZ</span><span class="logo-dep">DÉPANNAGE</span></a>
+    <div class="nav-actions">
+      <span id="navClientName" style="color:var(--gold);font-size:13px;font-weight:600;"></span>
+      <a href="../pages/commander.html" class="btn-nav">➕ Nouvelle Commande</a>
+      <button onclick="doLogout()" class="btn-call" style="border:none;">🚪 Déconnexion</button>
+    </div>
+  </div>
+</nav>
+
+<div style="padding-top:70px;">
+  <div class="dash-layout">
+    <aside class="dash-sidebar">
+      <div class="dash-profile">
+        <div class="dash-av">👤</div>
+        <div class="dash-uname" id="dashName">Client</div>
+        <div class="dash-uemail" id="dashEmail">—</div>
+      </div>
+      <nav class="dash-nav">
+        <a href="dashboard.html" class="active">📊 Tableau de Bord</a>
+        <a href="../pages/commander.html">➕ Nouvelle Commande</a>
+        <a href="mes-commandes.html">📋 Mes Commandes</a>
+        <a href="../pages/contact.html">🎧 Support</a>
+        <a onclick="doLogout()" class="logout">🚪 Déconnexion</a>
+      </nav>
+    </aside>
+    <main class="dash-main">
+      <div class="dash-head">
+        <h1>Bonjour, <span id="dashWelcome" style="color:var(--gold);">—</span> 👋</h1>
+        <p>Voici un résumé de vos activités avec DZ Dépannage</p>
+      </div>
+      <div class="dash-stats-row">
+        <div class="dash-stat-card"><div class="ds-icon ds-gold">📋</div><div><h3 id="sTotal">0</h3><p>Total Commandes</p></div></div>
+        <div class="dash-stat-card"><div class="ds-icon ds-orange">⏳</div><div><h3 id="sPending">0</h3><p>En Attente</p></div></div>
+        <div class="dash-stat-card"><div class="ds-icon ds-green">✅</div><div><h3 id="sDone">0</h3><p>Terminées</p></div></div>
+      </div>
+      <div class="orders-panel">
+        <div class="panel-head">
+          <h2>Dernières Commandes</h2>
+          <a href="../pages/commander.html" class="btn-new-order">➕ Nouvelle</a>
+        </div>
+        <div id="ordersTable"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+const client = DZ.currentClient();
+if (!client) window.location.href = 'login.html';
+else {
+  document.getElementById('navClientName').textContent = client.name;
+  document.getElementById('dashName').textContent = client.name;
+  document.getElementById('dashEmail').textContent = client.email;
+  document.getElementById('dashWelcome').textContent = client.name.split(' ')[0];
+  const orders = DZ.clientOrders(client.email);
+  document.getElementById('sTotal').textContent   = orders.length;
+  document.getElementById('sPending').textContent = orders.filter(o=>o.status==='pending').length;
+  document.getElementById('sDone').textContent    = orders.filter(o=>o.status==='done').length;
+  const wrap = document.getElementById('ordersTable');
+  const last5 = orders.slice(-5).reverse();
+  if (!last5.length) {
+    wrap.innerHTML = '<div class="empty-table"><span class="empty-em">📭</span><p>Aucune commande — <a href="../pages/commander.html" style="color:var(--gold)">Commander maintenant</a></p></div>';
+  } else {
+    wrap.innerHTML = `<table><thead><tr><th>Référence</th><th>Service</th><th>Lieu</th><th>Date</th><th>Statut</th></tr></thead><tbody>
+      ${last5.map(o=>`<tr>
+        <td class="td-gold">${o.id}</td>
+        <td>${o.service}</td>
+        <td>${o.location}</td>
+        <td>${o.date}</td>
+        <td><span class="status status-${o.status}">${STATUS_LABELS[o.status]||o.status}</span></td>
+      </tr>`).join('')}
+    </tbody></table>`;
+  }
+}
+function doLogout() { DZ.logoutClient(); window.location.href = 'login.html'; }
+</script>
+</body>
+</html>

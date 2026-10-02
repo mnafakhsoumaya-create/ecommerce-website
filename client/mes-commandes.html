@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes Commandes — DZ Dépannage</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="logo"><span class="logo-dz">DZ</span><span class="logo-dep">DÉPANNAGE</span></a>
+    <div class="nav-actions">
+      <span id="navClientName" style="color:var(--gold);font-size:13px;font-weight:600;"></span>
+      <button onclick="doLogout()" class="btn-call" style="border:none;">🚪 Déconnexion</button>
+    </div>
+  </div>
+</nav>
+<div style="padding-top:70px;">
+  <div class="dash-layout">
+    <aside class="dash-sidebar">
+      <div class="dash-profile">
+        <div class="dash-av">👤</div>
+        <div class="dash-uname" id="dashName">Client</div>
+        <div class="dash-uemail" id="dashEmail">—</div>
+      </div>
+      <nav class="dash-nav">
+        <a href="dashboard.html">📊 Tableau de Bord</a>
+        <a href="../pages/commander.html">➕ Nouvelle Commande</a>
+        <a href="mes-commandes.html" class="active">📋 Mes Commandes</a>
+        <a href="../pages/contact.html">🎧 Support</a>
+        <a onclick="doLogout()" class="logout">🚪 Déconnexion</a>
+      </nav>
+    </aside>
+    <main class="dash-main">
+      <div class="dash-head">
+        <h1>Mes Commandes</h1>
+        <p>Historique complet de toutes vos demandes d'intervention</p>
+      </div>
+      <div id="ordersList"></div>
+    </main>
+  </div>
+</div>
+<script src="../js/main.js"></script>
+<script>
+const client = DZ.currentClient();
+if (!client) window.location.href = 'login.html';
+else {
+  document.getElementById('navClientName').textContent = client.name;
+  document.getElementById('dashName').textContent = client.name;
+  document.getElementById('dashEmail').textContent = client.email;
+  const orders = DZ.clientOrders(client.email).reverse();
+  const wrap = document.getElementById('ordersList');
+  if (!orders.length) {
+    wrap.innerHTML = `<div class="empty-table" style="background:var(--dark2);border:1px solid rgba(201,168,76,0.1);border-radius:12px;">
+      <span class="empty-em">📭</span>
+      <p>Aucune commande pour le moment</p>
+      <br><a href="../pages/commander.html" class="btn-new-order" style="display:inline-flex;margin-top:10px;">➕ Passer une commande</a>
+    </div>`;
+  } else {
+    wrap.innerHTML = orders.map(o => `
+      <div class="order-item">
+        <div class="order-item-top">
+          <strong style="color:var(--gold);">📋 ${o.id}</strong>
+          <span class="status status-${o.status}">${STATUS_LABELS[o.status]||o.status}</span>
+        </div>
+        <div class="order-item-grid">
+          <div><div class="order-field-label">Service</div><div class="order-field-val">${o.service}</div></div>
+          <div><div class="order-field-label">Véhicule</div><div class="order-field-val">${o.vehicle||'—'}</div></div>
+          <div><div class="order-field-label">Localisation</div><div class="order-field-val">${o.location}</div></div>
+          <div><div class="order-field-label">Date</div><div class="order-field-val">${o.date}</div></div>
+          ${o.message ? `<div style="grid-column:1/-1"><div class="order-field-label">Description</div><div class="order-field-val">${o.message}</div></div>` : ''}
+        </div>
+      </div>`).join('');
+  }
+}
+function doLogout() { DZ.logoutClient(); window.location.href = 'login.html'; }
+</script>
+</body>
+</html>

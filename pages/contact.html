@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — DZ Dépannage</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="music-player"><button class="music-btn" id="musicBtn" onclick="toggleMusic()">♪</button><span class="music-label">Ambiance</span></div>
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="logo"><span class="logo-dz">DZ</span><span class="logo-dep">DÉPANNAGE</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Accueil</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="commander.html">Commander</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="../client/login.html" class="btn-nav">👤 Espace Client</a>
+      <a href="../admin/login.html"  class="btn-nav admin-btn">🛡️ Admin</a>
+      <a href="tel:0638115541"       class="btn-call">📞 0638 11 55 41</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <span class="section-tag">Nous Joindre</span>
+  <h1>Contactez-Nous</h1>
+  <p>Disponibles 24h/24 — 7j/7 pour toute urgence ou renseignement</p>
+</div>
+
+<div class="contact-wrap">
+  <div class="contact-info">
+    <h2>On Est Là Pour Vous</h2>
+    <p>Que ce soit pour une urgence sur route ou pour obtenir un devis, contactez DZ Dépannage à tout moment.</p>
+    <div class="c-item"><div class="c-icon">📞</div><div><div class="c-label">Téléphone</div><div class="c-val"><a href="tel:0638115541">0638 11 55 41</a></div></div></div>
+    <div class="c-item"><div class="c-icon">📸</div><div><div class="c-label">Instagram</div><div class="c-val"><a href="https://www.instagram.com/dz.depannage2" target="_blank">@dz.depannage2</a></div></div></div>
+    <div class="c-item"><div class="c-icon">👻</div><div><div class="c-label">Snapchat</div><div class="c-val"><a href="https://www.snapchat.com/add/dz.depannage2" target="_blank">@dz.depannage2</a></div></div></div>
+    <div class="c-item"><div class="c-icon">🕐</div><div><div class="c-label">Disponibilité</div><div class="c-val">24h/24 — 7j/7 — Jours fériés inclus</div></div></div>
+  </div>
+  <div class="contact-form-card">
+    <h3>Envoyer un Message</h3>
+    <div id="contactAlert"></div>
+    <div class="form-group"><label>Nom Complet</label><input type="text" id="cName" placeholder="Votre nom"></div>
+    <div class="form-group"><label>Téléphone</label><input type="tel" id="cPhone" placeholder="0X XX XX XX XX"></div>
+    <div class="form-group"><label>Sujet</label>
+      <select id="cSubject">
+        <option value="">-- Choisir --</option>
+        <option>Demande de devis</option><option>Urgence sur route</option>
+        <option>Renseignement</option><option>Réclamation</option><option>Autre</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Message</label><textarea id="cMessage" rows="5" placeholder="Votre message..."></textarea></div>
+    <button class="btn-submit" onclick="sendContact()">📤 Envoyer</button>
+  </div>
+</div>
+
+<footer class="footer"><div class="footer-bottom">© 2024 DZ Dépannage — <strong>dz.depanneur</strong></div></footer>
+<script src="../js/main.js"></script>
+<script>
+function sendContact() {
+  const name    = document.getElementById('cName').value.trim();
+  const phone   = document.getElementById('cPhone').value.trim();
+  const subject = document.getElementById('cSubject').value;
+  const message = document.getElementById('cMessage').value.trim();
+  const alertEl = document.getElementById('contactAlert');
+  if (!name || !phone || !subject || !message) {
+    alertEl.innerHTML = '<div class="alert alert-error">⚠️ Veuillez remplir tous les champs.</div>'; return;
+  }
+  alertEl.innerHTML = '<div class="alert alert-success">✅ Message envoyé ! Nous vous répondrons rapidement.</div>';
+  ['cName','cPhone','cMessage'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('cSubject').value = '';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — DZ Dépannage</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="music-player"><button class="music-btn" id="musicBtn" onclick="toggleMusic()">♪</button><span class="music-label">Ambiance</span></div>
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="logo"><span class="logo-dz">DZ</span><span class="logo-dep">DÉPANNAGE</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Accueil</a></li>
+      <li><a href="services.html" class="active">Services</a></li>
+      <li><a href="commander.html">Commander</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="../client/login.html" class="btn-nav">👤 Espace Client</a>
+      <a href="../admin/login.html"  class="btn-nav admin-btn">🛡️ Admin</a>
+      <a href="tel:0638115541"       class="btn-call">📞 0638 11 55 41</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <span class="section-tag">Nos Prestations</span>
+  <h1>Tous Nos Services</h1>
+  <p>Interventions rapides, professionnelles et sécurisées pour tous vos besoins</p>
+</div>
+
+<div style="max-width:1100px;margin:0 auto;padding:50px 40px 100px;">
+  <div class="svc-detail">
+    <div class="svc-big-icon">🚗</div>
+    <div>
+      <h2>Remorquage Voiture</h2>
+      <p>Notre service de remorquage automobile couvre toutes marques et modèles. Que vous soyez sur une route nationale, une autoroute ou en ville, notre équipe arrive rapidement avec le matériel adapté pour transporter votre véhicule en toute sécurité.</p>
+      <div class="svc-feats">
+        <div class="svc-feat"><span class="chk">✅</span> Toutes marques et modèles</div>
+        <div class="svc-feat"><span class="chk">✅</span> Remorquage sur route & autoroute</div>
+        <div class="svc-feat"><span class="chk">✅</span> Transport vers garage ou domicile</div>
+        <div class="svc-feat"><span class="chk">✅</span> Intervention en 30 min max</div>
+      </div>
+      <span class="price-tag">🏷️ Sur devis — Appel gratuit</span>
+    </div>
+  </div>
+  <div class="svc-detail rev">
+    <div class="svc-big-icon">🏍️</div>
+    <div>
+      <h2>Remorquage Moto</h2>
+      <p>Service spécialisé pour le transport de motos avec sangles et équipements adaptés. Votre deux-roues est entre de bonnes mains, transporté avec tout le soin qu'il mérite jusqu'à destination.</p>
+      <div class="svc-feats">
+        <div class="svc-feat"><span class="chk">✅</span> Équipement spécifique moto</div>
+        <div class="svc-feat"><span class="chk">✅</span> Sangles de sécurité professionnelles</div>
+        <div class="svc-feat"><span class="chk">✅</span> Toutes cylindrées acceptées</div>
+        <div class="svc-feat"><span class="chk">✅</span> Livraison soigneuse garantie</div>
+      </div>
+      <span class="price-tag">🏷️ Sur devis — Appel gratuit</span>
+    </div>
+  </div>
+  <div class="svc-detail">
+    <div class="svc-big-icon">🏎️</div>
+    <div>
+      <h2>Remorquage Quad & Buggy</h2>
+      <p>Spécialistes du transport de véhicules tout-terrain, quads et buggys. Notre matériel est adapté aux dimensions et au poids de ces véhicules particuliers, pour un transport sécurisé et professionnel.</p>
+      <div class="svc-feats">
+        <div class="svc-feat"><span class="chk">✅</span> Quads et buggys de toutes tailles</div>
+        <div class="svc-feat"><span class="chk">✅</span> Matériel de chargement adapté</div>
+        <div class="svc-feat"><span class="chk">✅</span> Déplacement partout en Algérie</div>
+        <div class="svc-feat"><span class="chk">✅</span> Service rapide et sécurisé</div>
+      </div>
+      <span class="price-tag">🏷️ Sur devis — Appel gratuit</span>
+    </div>
+  </div>
+  <div class="svc-detail rev">
+    <div class="svc-big-icon">🛣️</div>
+    <div>
+      <h2>Intervention sur Route</h2>
+      <p>Panne sèche, batterie déchargée, crevaison ? Notre technicien se déplace directement sur place pour tenter de réparer votre véhicule sans avoir à le remorquer.</p>
+      <div class="svc-feats">
+        <div class="svc-feat"><span class="chk">✅</span> Démarrage batterie</div>
+        <div class="svc-feat"><span class="chk">✅</span> Apport carburant d'urgence</div>
+        <div class="svc-feat"><span class="chk">✅</span> Changement de roue</div>
+        <div class="svc-feat"><span class="chk">✅</span> Diagnostic rapide</div>
+      </div>
+      <span class="price-tag">🏷️ Sur devis — Appel gratuit</span>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:55px;">
+    <h2 style="font-family:'Playfair Display',Georgia,serif;font-size:34px;color:#fff;margin-bottom:13px;">Besoin d'un Service ?</h2>
+    <p style="color:#888;margin-bottom:28px;">Contactez-nous maintenant, disponibles 24h/24 et 7j/7</p>
+    <div style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap;">
+      <a href="commander.html" class="btn-primary">🔧 Commander</a>
+      <a href="tel:0638115541" class="btn-secondary">📞 0638 11 55 41</a>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-bottom">© 2024 DZ Dépannage — <strong>dz.depanneur</strong></div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

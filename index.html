@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DZ Dépannage — Service Rapide & Fiable</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- MUSIC PLAYER -->
+<div class="music-player">
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">♪</button>
+  <span class="music-label">Ambiance</span>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo">
+      <span class="logo-dz">DZ</span>
+      <span class="logo-dep">DÉPANNAGE</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Accueil</a></li>
+      <li><a href="pages/services.html">Services</a></li>
+      <li><a href="pages/commander.html">Commander</a></li>
+      <li><a href="pages/contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="client/login.html"  class="btn-nav">👤 Espace Client</a>
+      <a href="admin/login.html"   class="btn-nav admin-btn">🛡️ Admin</a>
+      <a href="tel:0638115541"     class="btn-call">📞 0638 11 55 41</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="particles-wrap" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="badge-dot"></span> Disponible 24h/24 — 7j/7</div>
+    <div class="hero-title">
+      <span class="title-dz">DZ</span>
+      <span class="title-dep">DÉPANNAGE</span>
+    </div>
+    <p class="hero-sub">SERVICE RAPIDE &amp; FIABLE</p>
+    <p class="hero-desc">Besoin d'un dépannage en urgence ? On est là pour vous, partout et à toute heure.</p>
+    <div class="hero-actions">
+      <a href="tel:0638115541" class="btn-primary">📞 Appeler Maintenant</a>
+      <a href="pages/commander.html" class="btn-secondary">🔧 Commander un Service</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-n">500+</span><span class="stat-l">Interventions</span></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><span class="stat-n">24/7</span><span class="stat-l">Disponibilité</span></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><span class="stat-n">100%</span><span class="stat-l">Satisfaction</span></div>
+    </div>
+  </div>
+  <div class="hero-scroll"><span>Défiler</span><div class="scroll-bar"></div></div>
+</section>
+
+<!-- URGENCE BANNER -->
+<div class="urgence-banner">
+  <div class="urgence-inner">
+    <span class="wig">⚠️</span>
+    <span>En panne en ce moment ? N'attendez pas —</span>
+    <a href="tel:0638115541">Appelez le 0638 11 55 41</a>
+    <span class="wig">⚠️</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">Nos Prestations</span>
+    <h2 class="section-title">Ce Que Nous Faisons</h2>
+    <p class="section-sub">Des solutions rapides et professionnelles pour tous types de véhicules</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card"><div class="svc-icon">🚗</div><span class="svc-badge">Rapide</span><h3>Remorquage Voiture</h3><p>Remorquage sécurisé de toutes marques et modèles sur route et autoroute.</p></div>
+    <div class="service-card"><div class="svc-icon">🏍️</div><span class="svc-badge">Sécurisé</span><h3>Remorquage Moto</h3><p>Transport spécialisé pour motos avec équipements adaptés et sécurisés.</p></div>
+    <div class="service-card"><div class="svc-icon">🏎️</div><span class="svc-badge">Spécialisé</span><h3>Remorquage Quad & Buggy</h3><p>Service de remorquage pour véhicules tout-terrain, quads et buggys.</p></div>
+    <div class="service-card"><div class="svc-icon">🛣️</div><span class="svc-badge">24/7</span><h3>Intervention Route</h3><p>Intervention rapide sur place : panne, crevaison, batterie, carburant.</p></div>
+    <div class="service-card"><div class="svc-icon">📍</div><span class="svc-badge">Partout</span><h3>Déplacement Rapide</h3><p>Nous venons à vous partout — ville, route nationale ou autoroute.</p></div>
+    <div class="service-card"><div class="svc-icon">🛡️</div><span class="svc-badge">Pro</span><h3>Service Professionnel</h3><p>Équipe sérieuse, rapide et professionnelle pour votre tranquillité.</p></div>
+  </div>
+</div>
+
+<!-- WHY US -->
+<div class="section section-sep">
+  <div class="why-wrap">
+    <div class="why-img-col">
+      <div class="why-border-box"></div>
+      <div class="why-img-box">
+        <div class="big-em">🚛</div>
+        <span>DZ Dépannage</span>
+      </div>
+    </div>
+    <div class="why-text">
+      <span class="section-tag">Pourquoi Nous Choisir</span>
+      <h2 class="section-title">La Confiance Avant Tout</h2>
+      <p class="why-desc">Nous sommes une équipe dédiée, disponible à toute heure pour vous sortir de toute situation difficile sur la route.</p>
+      <div class="why-list">
+        <div class="why-item"><span class="chk">✅</span><span>Intervention en moins de 30 minutes</span></div>
+        <div class="why-item"><span class="chk">✅</span><span>Personnel qualifié et expérimenté</span></div>
+        <div class="why-item"><span class="chk">✅</span><span>Prix transparents et honnêtes</span></div>
+        <div class="why-item"><span class="chk">✅</span><span>Couverture de toutes les routes</span></div>
+        <div class="why-item"><span class="chk">✅</span><span>Disponible 24h/24 et 7j/7</span></div>
+      </div>
+      <a href="pages/commander.html" class="btn-primary">Demander une Intervention</a>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL -->
+<div class="section section-sep">
+  <div class="section-header">
+    <span class="section-tag">Réseaux Sociaux</span>
+    <h2 class="section-title">Suivez-Nous</h2>
+  </div>
+  <div class="social-cards">
+    <a href="https://www.instagram.com/dz.depannage2" target="_blank" class="social-card insta">
+      <span class="social-em">📸</span>
+      <span class="soc-name">Instagram</span>
+      <span class="soc-handle">@dz.depannage2</span>
+      <span class="soc-cta">Suivre →</span>
+    </a>
+    <a href="https://www.snapchat.com/add/dz.depannage2" target="_blank" class="social-card snap">
+      <span class="social-em">👻</span>
+      <span class="soc-name">Snapchat</span>
+      <span class="soc-handle">@dz.depannage2</span>
+      <span class="soc-cta">Ajouter →</span>
+    </a>
+    <a href="tel:0638115541" class="social-card tel-card">
+      <span class="social-em">📞</span>
+      <span class="soc-name">Téléphone</span>
+      <span class="soc-handle">0638 11 55 41</span>
+      <span class="soc-cta">Appeler →</span>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo" style="margin-bottom:14px;"><span class="logo-dz">DZ</span><span class="logo-dep">DÉPANNAGE</span></div>
+      <p>Service de dépannage rapide et fiable, disponible partout et à toute heure pour votre sécurité sur la route.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/dz.depannage2" target="_blank">📸</a>
+        <a href="https://www.snapchat.com/add/dz.depannage2" target="_blank">👻</a>
+        <a href="tel:0638115541">📞</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <a href="index.html">Accueil</a>
+      <a href="pages/services.html">Services</a>
+      <a href="pages/commander.html">Commander</a>
+      <a href="pages/contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Compte</h4>
+      <a href="client/login.html">Espace Client</a>
+      <a href="client/register.html">S'inscrire</a>
+      <a href="admin/login.html">🛡️ Admin</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>📞 <a href="tel:0638115541">0638 11 55 41</a></p>
+      <p>📸 @dz.depannage2</p>
+      <p>👻 @dz.depannage2</p>
+      <p>🕐 24h/24 — 7j/7</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 DZ Dépannage — Tous droits réservés | Développé par <strong>dz.depanneur</strong></div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
